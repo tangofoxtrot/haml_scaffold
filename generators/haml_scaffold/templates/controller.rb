@@ -1,88 +1,80 @@
 class <%= controller_class_name %>Controller < ApplicationController
-  # GET /<%= table_name %>
-  # GET /<%= table_name %>.xml
-  def index
-    @<%= table_name %> = <%= class_name %>.find(:all)
 
-    respond_to do |format|
-      format.html # index.html.haml
-      format.xml  { render :xml => @<%= table_name %> }
-    end
-  end
+  before_filter :find_<%= file_name %>
 
-  # GET /<%= table_name %>/1
-  # GET /<%= table_name %>/1.xml
-  def show
-    @<%= file_name %> = <%= class_name %>.find(params[:id])
+  <%= file_name.pluralize.upcase %>_PER_PAGE = 20
 
-    respond_to do |format|
-      format.html # show.html.haml
-      format.xml  { render :xml => @<%= file_name %> }
-    end
-  end
-
-  # GET /<%= table_name %>/new
-  # GET /<%= table_name %>/new.xml
-  def new
-    @<%= file_name %> = <%= class_name %>.new
-
-    respond_to do |format|
-      format.html # new.html.haml
-      format.xml  { render :xml => @<%= file_name %> }
-    end
-  end
-
-  # GET /<%= table_name %>/1/edit
-  def edit
-    @<%= file_name %> = <%= class_name %>.find(params[:id])
-  end
-
-  # POST /<%= table_name %>
-  # POST /<%= table_name %>.xml
   def create
     @<%= file_name %> = <%= class_name %>.new(params[:<%= file_name %>])
-
     respond_to do |format|
       if @<%= file_name %>.save
         flash[:notice] = '<%= class_name %> was successfully created.'
-        format.html { redirect_to(@<%= file_name %>) }
+        format.html { redirect_to @<%= file_name %> }
         format.xml  { render :xml => @<%= file_name %>, :status => :created, :location => @<%= file_name %> }
       else
-        flash.now[:error] = 'Something went wrong.'
         format.html { render :action => "new" }
         format.xml  { render :xml => @<%= file_name %>.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # PUT /<%= table_name %>/1
-  # PUT /<%= table_name %>/1.xml
-  def update
-    @<%= file_name %> = <%= class_name %>.find(params[:id])
+  def destroy
+    respond_to do |format|
+      if @<%= file_name %>.destroy
+        flash[:notice] = '<%= class_name %> was successfully destroyed.'        
+        format.html { redirect_to <%= file_name.pluralize %>_path }
+        format.xml  { head :ok }
+      else
+        flash[:error] = '<%= class_name %> could not be destroyed.'
+        format.html { redirect_to @<%= file_name %> }
+        format.xml  { head :unprocessable_entity }
+      end
+    end
+  end
 
+  def index
+    @<%= table_name %> = <%= class_name %>.paginate(:page => params[:page], :per_page => <%= file_name.pluralize.upcase %>_PER_PAGE)
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @<%= table_name %> }
+    end
+  end
+
+  def edit
+  end
+
+  def new
+    @<%= file_name %> = <%= class_name %>.new
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @<%= file_name %> }
+    end
+  end
+
+  def show
+    respond_to do |format|
+      format.html
+      format.xml  { render :xml => @<%= file_name %> }
+    end
+  end
+
+  def update
     respond_to do |format|
       if @<%= file_name %>.update_attributes(params[:<%= file_name %>])
         flash[:notice] = '<%= class_name %> was successfully updated.'
-        format.html { redirect_to(@<%= file_name %>) }
+        format.html { redirect_to @<%= file_name %> }
         format.xml  { head :ok }
       else
-        flash.now[:error] = 'Something went wrong.'
         format.html { render :action => "edit" }
         format.xml  { render :xml => @<%= file_name %>.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /<%= table_name %>/1
-  # DELETE /<%= table_name %>/1.xml
-  def destroy
-    @<%= file_name %> = <%= class_name %>.find(params[:id])
-    @<%= file_name %>.destroy
+  private
 
-    respond_to do |format|
-      flash[:notice] = '<%= class_name %> was successfully deleted.'
-      format.html { redirect_to(<%= table_name %>_url) }
-      format.xml  { head :ok }
-    end
+  def find_<%= file_name %>
+    @<%= file_name %> = <%= class_name %>.find(params[:id]) if params[:id]
   end
+
 end

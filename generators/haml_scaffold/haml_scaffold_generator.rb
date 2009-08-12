@@ -63,11 +63,18 @@ class HamlScaffoldGenerator < Rails::Generator::NamedBase
         'controller.rb', File.join('app/controllers', controller_class_path, "#{controller_file_name}_controller.rb")
       )
 
+      m.template(
+        "_form.html.haml",
+          File.join('app/views', controller_class_path, controller_file_name, "_form.html.haml")
+      )
+
       m.template('functional_test.rb', File.join('test/functional', controller_class_path, "#{controller_file_name}_controller_test.rb"))
       m.template('helper.rb',          File.join('app/helpers',     controller_class_path, "#{controller_file_name}_helper.rb"))
-
+      m.template 'unit.rb',  File.join('test/unit', class_path, "#{file_name}_test.rb")
+      
+      m.template 'model.rb',      File.join('app/models', class_path, "#{file_name}.rb")
       m.route_resources controller_file_name
-
+      
       m.dependency 'model', [name] + @args, :collision => :skip
     end
   end

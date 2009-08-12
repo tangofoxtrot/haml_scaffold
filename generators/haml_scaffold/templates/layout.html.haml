@@ -9,8 +9,4 @@
     = stylesheet_link_tag '<%= controller_class_name %>'  
   %body
     #content
-      - if flash[:notice]
-        %p.notice= flash[:notice]
-      - elsif flash[:error]
-        %p.error= flash[:error]
-      = yield
+      = sexy_flash
