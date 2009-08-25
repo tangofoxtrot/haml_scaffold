@@ -33,7 +33,7 @@ class <%= class_name %>Test < ActiveSupport::TestCase
 protected
 
   def create_<%= singular_name %>(options={})
-    <%= class_name %>.create({<%= attributes.map{|x| ":#{x.name} => #{x.default}"}.join(",\n") %>
+    <%= class_name %>.create({<%= attributes.map{|x| ":#{x.name} => #{[:string, :text].include?(x.type) ? "Some Text"  : x.default }"}.join(",\n      ") %>
     }.merge(options))
   end
 
