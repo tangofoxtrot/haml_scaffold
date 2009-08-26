@@ -1,6 +1,6 @@
 module <%= controller_class_name %>Helper
 
-  def <%= singular_name %>_table(<%= plural_name %>)
+  def <%= plural_name %>_table(<%= plural_name %>)
     collection_table(<%= plural_name %>, {:footer => true}, :id => '<%= singular_name %>_table', :class => "table") do |t|
 <% attributes.each_with_index do |attribute, index| -%>
       t.header :<%= attribute.name -%>    

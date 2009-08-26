@@ -66,7 +66,7 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
       end
 
       should_respond_with :success
-      should_render_template :new
+      should_render_template :edit
       should_assign_to(:<%= file_name %>)
       
     end
@@ -77,7 +77,7 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
       end
 
       should_respond_with :success
-      should_render_template :new
+      should_render_template :show
       should_assign_to(:<%= file_name %>)
       
     end

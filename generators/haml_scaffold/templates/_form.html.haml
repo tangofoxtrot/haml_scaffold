@@ -1,7 +1,7 @@
 = f.error_messages
 <% for attribute in attributes -%>
-  .field
-    = f.label :<%= attribute.name %>
-    = f.<%= attribute.field_type %> :<%= attribute.name %>
-    = error_message_on "<%= singular_name %>", "<%= attribute.name %>", :prepend_text => "<%= attribute.name.humanize %> ", :append_text => "!", :css_class => "input_error"
+.field
+  = f.label :<%= attribute.name %>
+  = f.<%= attribute.field_type %> :<%= attribute.name %>
+  = error_message_on "<%= singular_name %>", "<%= attribute.name %>", :prepend_text => "<%= attribute.name.humanize %> ", :append_text => "!", :css_class => "input_error"
 <% end -%>

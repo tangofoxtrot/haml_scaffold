@@ -1,5 +1,5 @@
 %h2 Listing <%= plural_name %>
-= <%= plural_name %>_table(<%= plural_name %>)
+= <%= plural_name %>_table(@<%= plural_name %>)
 %ul
   %li
     = link_to 'New <%= singular_name %>', new_<%= singular_name %>_path
