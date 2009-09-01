@@ -111,7 +111,7 @@ protected
   end
   
   def new_params(options={})
-    {<%= class_name %>.create({<%= attributes.map{|x| ":#{x.name} => #{[:string, :text].include?(x.type) ? "Some Text"  : x.default }"}.join(",\n      ") %>
+    {<%= attributes.map{|x| ":#{x.name} => #{[:string, :text].include?(x.type) ? "Some Text"  : x.default }"}.join(",\n      ") %>
       }.merge(options)
   end
   
