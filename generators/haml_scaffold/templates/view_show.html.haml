@@ -1,10 +1,9 @@
 %h2= "<%= class_name %> \"#{@<%= singular_name %>.to_param}\""
 .<%= singular_name %>
-  %ul
 <% for attribute in attributes -%>
-    %li
-      %strong <%= attribute.column.human_name %>:
-      =h @<%= singular_name %>.<%= attribute.name %>
+  .field
+    %strong <%= attribute.column.human_name %>:
+    =h @<%= singular_name %>.<%= attribute.name %>
 <% end -%>
 %ul
   %li= link_to 'Edit', edit_<%= singular_name %>_path(@<%= singular_name %>)
