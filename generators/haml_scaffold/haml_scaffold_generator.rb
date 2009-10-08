@@ -42,8 +42,6 @@ class HamlScaffoldGenerator < Rails::Generator::NamedBase
       m.directory(File.join('app/views/layouts', controller_class_path))
       m.directory(File.join('test/functional', controller_class_path))
       m.directory(File.join('test/unit', class_path))
-      m.directory(File.join('public/stylesheets', class_path))
-      m.directory(File.join('public/stylesheets/sass', class_path))
 
       for action in scaffold_views
         m.template(
@@ -55,8 +53,6 @@ class HamlScaffoldGenerator < Rails::Generator::NamedBase
       # Layout and stylesheet.
       unless options[:skip_layout]
         m.template('layout.html.haml', File.join('app/views/layouts', controller_class_path, "#{controller_file_name}.html.haml"))
-        m.file('styles.sass', 'public/stylesheets/sass/styles.sass')
-        m.template('style.sass', "public/stylesheets/sass/#{controller_file_name}.sass")
       end
 
       m.template(
@@ -77,6 +73,22 @@ class HamlScaffoldGenerator < Rails::Generator::NamedBase
       
       m.dependency 'model', [name] + @args, :collision => :skip
     end
+  end
+
+  # this is almost an exact duplicate of the attribute class for generators except the dates and strings are rendered as seen
+  def default_value(type)
+    case type
+      when :integer                     then 1
+      when :float                       then 1.5
+      when :decimal                     then "9.99"
+      when :datetime, :timestamp, :time then "Time.now.to_s(:db)"
+      when :date                        then "Date.today.to_s(:db)"
+      when :string                      then "'MyString'"
+      when :text                        then "'MyText'"
+      when :boolean                     then false
+      else
+        ""
+    end     
   end
 
   protected
