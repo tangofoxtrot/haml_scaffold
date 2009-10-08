@@ -4,7 +4,7 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
   
   context "logged in" do
     setup do
-      do_login
+      login_as
     end
 
     context "get index" do
