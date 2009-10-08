@@ -27,19 +27,29 @@ Example
 
 Notes
 =======
-  Stylesheets are generated with Sass, so stylesheets/sass/mystyle.sass 
-  becomes stylesheets/mystyle.css
+ This is a modified version of haml_scaffold.
+ I've tweaked it to work for my needs. 
+ If you want to try it out you will need a libraries:
+  - HAML - http://github.com/nex3/haml
+  - table_helper http://github.com/tangofoxtrot/table_helper
+  - will_paginate http://github.com/mislav/will_paginate/
+  - sexy_flash http://github.com/tangofoxtrot/sexy_flash
   
-  It is useful to include the sass stylesheet in a 'master' sheet. For
-  this purpose there is a stylesheets/sass/styles.sass file included.
-  
-  Include your stylesheets with:
-    @import mystyle.sass
-    
-  Then
-    = stylesheet_link_tag "styles"
-  in your main layout
-  
-  *see Sass for more info
+ Also create a new initializer with the following code:
 
+  class ActiveRecord::Base
+    # Convert the object to a hash_of params for functional tests
+    def to_params(options={})
+      skip_keys = [:created_at, :updated_at, :id, :deleted_at]
+      self.attributes.symbolize_keys!.delete_if {|k,y| skip_keys.include?(k)}.merge(options)
+    end
+  end 
+
+ And a method in your test_helper for login_as
+
+  def login_as(user=:joe)
+    @request.session = {:user_id => users(user).id}
+  end 
+ 
+ 
 Released under the MIT license
