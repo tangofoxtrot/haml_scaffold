@@ -102,8 +102,6 @@ class <%= controller_class_name %>ControllerTest < ActionController::TestCase
     
   end
   
-  user_type_not_allowed_on(:viewer, :create, :update, :destroy, :new, :edit)
-  
 protected
   
   def existing_params(options={})
@@ -111,7 +109,7 @@ protected
   end
   
   def new_params(options={})
-    {<%= attributes.map{|x| ":#{x.name} => #{[:string, :text].include?(x.type) ? "Some Text"  : x.default }"}.join(",\n      ") %>
+    {<%= attributes.map{|x| ":#{x.name} => #{default_value(x.type)}"}.join(",\n      ") %>
       }.merge(options)
   end
   
